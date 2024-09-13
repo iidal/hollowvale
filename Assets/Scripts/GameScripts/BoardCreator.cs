@@ -15,6 +15,10 @@ public class BoardCreator : MonoBehaviour
 
     void Start()
     {
+        
+    }
+    public void CreateBoard()
+    {
         m_tiles = new TileControl[m_xWidth, m_zWidth];
         for (int i = 0; i < m_xWidth; i++)
         {
@@ -58,5 +62,9 @@ public class BoardCreator : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public TileControl GetTileControl(){
+        //TODO return some tile for example for character initiation position
+        return m_tiles[0,0];
     }
 }
