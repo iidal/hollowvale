@@ -10,13 +10,8 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private int m_xWidth, m_zWidth;
     private readonly float m_tileOffset = 0.15f;
     [SerializeField] private GameObject m_tilePrefab;
-    public TileControl m_selectedTile;
+    TileControl m_selectedTile;
 
-
-    void Start()
-    {
-        
-    }
     public void CreateBoard()
     {
         m_tiles = new TileControl[m_xWidth, m_zWidth];
@@ -56,7 +51,7 @@ public class BoardCreator : MonoBehaviour
     }
 
     public bool IsBoardIdling()
-    {
+    {   //Add documentation what this function does
         //TODO probs rename, but when other logic is added to here
         if(m_selectedTile == null){
             return true;

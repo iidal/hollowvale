@@ -186,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_highlightHover: {fileID: 2256582741341884126}
   m_highlightClicked: {fileID: 4753710882592630621}
+  m_tileSelected: 0
 --- !u!65 &4608657316969547546
 BoxCollider:
   m_ObjectHideFlags: 0

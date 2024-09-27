@@ -7,7 +7,6 @@ public class TileControl : MonoBehaviour
 {
     public UnityAction<TileControl> m_onTileSelect;
     public UnityAction<TileControl> m_onTileDeselect;
-    //coordinates
     [SerializeField] GameObject m_highlightHover;
     [SerializeField] GameObject m_highlightClicked;
 

@@ -7,18 +7,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] BoardCreator m_boardManager;
-    [SerializeField] GameObject m_characterPrefab;
+    [SerializeField] CharacterManager m_characterManager;
+
     void Start()
     {
         m_boardManager.CreateBoard();
-        GameObject character = Instantiate(m_characterPrefab);
-        character.GetComponent<CharacterControl>().InitCharacter(m_boardManager.GetTileControl());
+        m_characterManager.InitCharacters();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
