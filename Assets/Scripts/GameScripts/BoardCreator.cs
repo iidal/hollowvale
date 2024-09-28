@@ -36,7 +36,7 @@ public class BoardCreator : MonoBehaviour
             //other tile has been selected, do nothing
             return;            
         }
-        tile.TileSelected();
+        tile.TilePreviewOn();
         m_selectedTile = tile;
     }
 
@@ -46,20 +46,23 @@ public class BoardCreator : MonoBehaviour
         {
             return;            
         }
-        tile.TileDeselected();
+        tile.TilePreviewOff();
         m_selectedTile = null;
     }
 
-    public bool IsBoardIdling()
-    {   //Add documentation what this function does
-        //TODO probs rename, but when other logic is added to here
-        if(m_selectedTile == null){
-            return true;
-        }
-        return false;
-    }
     public TileControl GetTileControl(){
-        //TODO return some tile for example for character initiation position
-        return m_tiles[0,0];
+        //TODOreturn some tile for example for character initiation position
+        return m_tiles[2,2];
+    }
+
+    public void TilePreviewOn(Vector2 coords)
+    {
+        TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
+        tile.TilePreviewOn();
+    }
+    public void TilePreviewOff(Vector2 coords)
+    {
+        TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
+        tile.TilePreviewOff();
     }
 }

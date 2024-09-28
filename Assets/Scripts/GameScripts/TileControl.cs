@@ -10,10 +10,10 @@ public class TileControl : MonoBehaviour
     [SerializeField] GameObject m_highlightHover;
     [SerializeField] GameObject m_highlightClicked;
 
-    Vector2 m_coordinates;
+    public Vector2 m_coordinates; //temporary public, get via fucntion
     BoardCreator m_boardManager;
     bool m_mouseHover = false;
-    public bool m_tileSelected = false;
+    bool m_tilePreviewOn = false;
 
     void Start()
     {
@@ -23,9 +23,9 @@ public class TileControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (m_boardManager.IsBoardIdling())
+        //tiles are higlighted only if they are previeved for movement or abilities
+        if (m_tilePreviewOn)
         {
-            // no tile has been selected, do hover highlighting
             TileHovering();
         }
     }
@@ -47,29 +47,18 @@ public class TileControl : MonoBehaviour
         m_boardManager = manager;
     }
 
-    public void TileSelected()
+    public void TilePreviewOn()
     {
-        m_tileSelected = true;
+        m_tilePreviewOn = true;
         m_highlightClicked.SetActive(true);
         m_highlightHover.SetActive(false);
     }
-    public void TileDeselected()
+    public void TilePreviewOff()
     {
-        m_tileSelected = false;
+        m_tilePreviewOn = false;
         m_highlightClicked.SetActive(false);
     }
 
-    void OnMouseDown()
-    {
-        if (!m_tileSelected)
-        {
-            m_onTileSelect.Invoke(this);
-        }
-        else
-        {
-            m_onTileDeselect.Invoke(this);
-        }
-    }
     void OnMouseEnter()
     {
         m_mouseHover = true;

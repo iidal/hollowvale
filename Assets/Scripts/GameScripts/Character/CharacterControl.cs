@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,15 +7,23 @@ public class CharacterControl : MonoBehaviour
 {
     public UnityAction<CharacterControl> m_onCharacterSelect;
     public UnityAction<CharacterControl> m_onCharacterDeselect;
-    TileControl m_tilePosition;
+    public TileControl m_tilePosition; // Temporarily public, get via function
     bool m_mouseHover = false;
     [SerializeField] GameObject m_highlightClicked;
 
     bool m_characterSelected = false;
     [SerializeField] GameObject m_highlightHover;
+    public List<Vector2> m_movementCoordinates; // make this private and accessed via a function
+                                                // temporary, should be initialized from json config
 
     void Start()
     {
+        m_movementCoordinates.Add(new Vector2(-1,0));
+        m_movementCoordinates.Add(new Vector2(0,1));
+        m_movementCoordinates.Add(new Vector2(1,0));
+        m_movementCoordinates.Add(new Vector2(0, -1));
+
+
         m_highlightHover.SetActive(false);
     }
     public void InitCharacter(TileControl tile)

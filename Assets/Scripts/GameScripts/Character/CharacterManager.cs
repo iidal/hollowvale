@@ -14,11 +14,6 @@ public class CharacterManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void InitCharacters()
     {
         GameObject character = Instantiate(m_characterPrefab);
@@ -36,6 +31,15 @@ public class CharacterManager : MonoBehaviour
         }
         character.CharacterSelected();
         m_selectedCharacter = character;
+        List<Vector2> tilesToHighlight = character.m_movementCoordinates;
+        Vector2 characterCoords = character.m_tilePosition.m_coordinates;
+        foreach (var coords in tilesToHighlight)
+        {   //this is duplicated code, refactor
+            Vector2 highlightCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
+            if (highlightCoords.x >= 0 && highlightCoords.y >= 0){
+            m_boardManager.TilePreviewOn(highlightCoords);
+            }
+        }
     }
 
     void CharacterUnclicked(CharacterControl character)
@@ -46,5 +50,17 @@ public class CharacterManager : MonoBehaviour
         }
         character.CharacterDeselected();
         m_selectedCharacter = null;
+
+
+        List<Vector2> tilesToHighlight = character.m_movementCoordinates;
+        Vector2 characterCoords = character.m_tilePosition.m_coordinates;
+        foreach (var coords in tilesToHighlight)
+        {   //this is duplicated code, refactor
+            Vector2 highlightCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
+            if (highlightCoords.x >= 0 && highlightCoords.y >= 0){
+            m_boardManager.TilePreviewOff(highlightCoords);
+            }
+        }
+
     }
 }

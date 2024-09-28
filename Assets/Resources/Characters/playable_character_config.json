@@ -1,0 +1,47 @@
+{
+    "character_id": "00001",
+    "display_name": "Hero",
+    "action_patterns":
+    {
+        "movement":
+        {
+            "coordinates":[
+                {
+                    "x": 0,
+                    "y": 1
+                },
+                {
+                    "x": -1,
+                    "y": 0
+                },
+                {
+                    "x": 1,
+                    "y": 0
+                },
+                {
+                    "x": 0,
+                    "y": -1
+                } 
+            ]
+        },
+        "ability":
+        {
+            "type": "heal", // heal/damage/...
+            "ability_name": "Healing Aura",
+            "ability_description": "Healing aura heals all allies near the healer",
+            "area_of_ability": "area", //area = whole area is affected. line_all = everyone at the selected direction are affected. line_first = first character in the line is affected. burst = area arounf chosen tile are affected
+            "coordinates":
+            [
+                {
+                    "x": 0,
+                    "y": 1
+                },
+                {
+                    "x": -1,
+                    "y": 0
+                }   
+            ]
+        }
+
+    }
+}
