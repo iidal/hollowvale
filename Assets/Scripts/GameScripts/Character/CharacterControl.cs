@@ -29,7 +29,7 @@ public class CharacterControl : MonoBehaviour
     public void InitCharacter(TileControl tile)
     {
         m_tilePosition = tile;
-        transform.SetPositionAndRotation(m_tilePosition.transform.position, Quaternion.identity);
+        SetTileToCharacter(m_tilePosition);
     }
 
     void FixedUpdate()
@@ -53,6 +53,11 @@ public class CharacterControl : MonoBehaviour
     {
         m_characterSelected = false;
         m_highlightClicked.SetActive(false);
+    }
+    public void SetTileToCharacter(TileControl newTile)
+    {
+        m_tilePosition = newTile;
+        transform.SetPositionAndRotation(newTile.transform.position, Quaternion.identity);
     }
 
     void OnMouseDown()

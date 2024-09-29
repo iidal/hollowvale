@@ -6,7 +6,6 @@ using UnityEngine;
 public class TileControl : MonoBehaviour
 {
     public UnityAction<TileControl> m_onTileSelect;
-    public UnityAction<TileControl> m_onTileDeselect;
     [SerializeField] GameObject m_highlightHover;
     [SerializeField] GameObject m_highlightClicked;
 
@@ -67,5 +66,13 @@ public class TileControl : MonoBehaviour
     void OnMouseExit()
     {
         m_mouseHover = false;
+    }
+    void OnMouseDown()
+    {
+        if (m_tilePreviewOn)
+        {   // Excecute action (movement)
+            m_highlightHover.SetActive(false);
+            m_onTileSelect.Invoke(this);
+        }
     }
 }

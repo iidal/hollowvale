@@ -10,7 +10,7 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private int m_xWidth, m_zWidth;
     private readonly float m_tileOffset = 0.15f;
     [SerializeField] private GameObject m_tilePrefab;
-    TileControl m_selectedTile;
+    [SerializeField] private CharacterManager m_characterManager;
 
     public void CreateBoard()
     {
@@ -22,32 +22,15 @@ public class BoardCreator : MonoBehaviour
                 GameObject tile = Instantiate(m_tilePrefab, new Vector3(i+(m_tileOffset * i), 0, j + (m_tileOffset* j)), m_tilePrefab.transform.rotation, this.transform);
                 tile.name = $"tile{i}{j}";
                 TileControl controller = tile.GetComponent<TileControl>();
-                controller.InitTile(new Vector2(j,i), this);
+                controller.InitTile(new Vector2(i,j), this);
                 controller.m_onTileSelect += TileClicked;
-                controller.m_onTileDeselect += TileUnclicked;
-                m_tiles[j, i] = tile.GetComponent<TileControl>();
+                m_tiles[i, j] = tile.GetComponent<TileControl>();
             }
         }
     }
     void TileClicked(TileControl tile)
     {
-        if (m_selectedTile != null) 
-        {
-            //other tile has been selected, do nothing
-            return;            
-        }
-        tile.TilePreviewOn();
-        m_selectedTile = tile;
-    }
-
-    void TileUnclicked(TileControl tile)
-    {
-        if (m_selectedTile != tile)
-        {
-            return;            
-        }
-        tile.TilePreviewOff();
-        m_selectedTile = null;
+        m_characterManager.MoveCharacter(tile);
     }
 
     public TileControl GetTileControl(){
@@ -56,13 +39,21 @@ public class BoardCreator : MonoBehaviour
     }
 
     public void TilePreviewOn(Vector2 coords)
-    {
-        TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
-        tile.TilePreviewOn();
+    { 
+        if (coords.x >= 0 && coords.y >= 0
+            && coords.x < m_xWidth && coords.y < m_zWidth)
+        {
+            TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
+            tile.TilePreviewOn();
+        }
     }
     public void TilePreviewOff(Vector2 coords)
     {
-        TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
-        tile.TilePreviewOff();
+        if (coords.x >= 0 && coords.y >= 0
+            && coords.x < m_xWidth && coords.y < m_zWidth)
+        {
+            TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
+            tile.TilePreviewOff();
+        }
     }
 }
