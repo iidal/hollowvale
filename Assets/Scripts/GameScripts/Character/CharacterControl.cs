@@ -15,14 +15,29 @@ public class CharacterControl : MonoBehaviour
     [SerializeField] GameObject m_highlightHover;
     public List<Vector2> m_movementCoordinates; // make this private and accessed via a function
                                                 // temporary, should be initialized from json config
+    public List<Vector2> m_abilityCoordinates; // make this private and accessed via a function
+                                                // temporary, should be initialized from json config
 
     void Start()
     {
-        m_movementCoordinates.Add(new Vector2(-1,0));
-        m_movementCoordinates.Add(new Vector2(0,1));
-        m_movementCoordinates.Add(new Vector2(1,0));
-        m_movementCoordinates.Add(new Vector2(0, -1));
+        m_abilityCoordinates.Add(new Vector2(-1,0));
+        m_abilityCoordinates.Add(new Vector2(0,1));
+        m_abilityCoordinates.Add(new Vector2(1,0));
+        m_abilityCoordinates.Add(new Vector2(0, -1));
 
+        m_movementCoordinates.Add(new Vector2(-2,0));
+        m_movementCoordinates.Add(new Vector2(-1,1));
+        m_movementCoordinates.Add(new Vector2(-1,0));
+        m_movementCoordinates.Add(new Vector2(-1,-1));
+        m_movementCoordinates.Add(new Vector2(0, 2));
+        m_movementCoordinates.Add(new Vector2(0,1));
+        m_movementCoordinates.Add(new Vector2(0,0));
+        m_movementCoordinates.Add(new Vector2(0,-1));
+        m_movementCoordinates.Add(new Vector2(0, -2));
+        m_movementCoordinates.Add(new Vector2(1,1));
+        m_movementCoordinates.Add(new Vector2(1,0));
+        m_movementCoordinates.Add(new Vector2(1, -1));
+        m_movementCoordinates.Add(new Vector2(2,0));
 
         m_highlightHover.SetActive(false);
     }

@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
+    enum ActionType {Move, Ability};
     [SerializeField] GameObject m_characterPrefab;
     [SerializeField] BoardCreator m_boardManager;   // TODO refactor this away
     CharacterControl m_selectedCharacter;
     [SerializeField] GameObject m_actionButtons;
-
+    ActionType m_currentActionType = ActionType.Move;
     void Start()
     {
         m_actionButtons.SetActive(false);
@@ -33,13 +34,7 @@ public class CharacterManager : MonoBehaviour
         character.CharacterSelected();
         m_selectedCharacter = character;
         m_actionButtons.SetActive(true);
-        List<Vector2> tilesToHighlight = character.m_movementCoordinates;
-        Vector2 characterCoords = character.m_tilePosition.m_coordinates;
-        foreach (var coords in tilesToHighlight)
-        {   //this is duplicated code, refactor
-            Vector2 highlightCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
-            m_boardManager.TilePreviewOn(highlightCoords);
-        }
+        TileHighlighting(m_currentActionType, true);
     }
 
     void CharacterUnclicked(CharacterControl character)
@@ -49,32 +44,72 @@ public class CharacterManager : MonoBehaviour
             return;            
         }
         character.CharacterDeselected();
-        m_selectedCharacter = null;
         m_actionButtons.SetActive(false);
-
-
-        List<Vector2> tilesToHighlight = character.m_movementCoordinates;
-        Vector2 characterCoords = character.m_tilePosition.m_coordinates;
-        foreach (var coords in tilesToHighlight)
-        {   //this is duplicated code, refactor
-            Vector2 highlightCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
-            m_boardManager.TilePreviewOff(highlightCoords);
-        }
-
+        TileHighlighting(m_currentActionType, false);
+        m_selectedCharacter = null;
     }
     public void MoveCharacter(TileControl tile)
     {
-        if(m_selectedCharacter == null){
+        if (m_selectedCharacter == null)
+        {
             //error
             return;
         }
-        List<Vector2> tilesToHighlight = m_selectedCharacter.m_movementCoordinates;
-        Vector2 characterCoords = m_selectedCharacter.m_tilePosition.m_coordinates;
-        foreach (var coords in tilesToHighlight)
-        {   //this is duplicated code, refactor (although here we could loop all tiles and turn all highlighst off)
-            Vector2 highlightCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
-            m_boardManager.TilePreviewOff(highlightCoords);
-        }
+        TileHighlighting(m_currentActionType, false);
         m_selectedCharacter.SetTileToCharacter(tile);
+    }
+    public void SetSelectedAction(string actionType) //move, ability
+    {
+        // TODO: hold a list of available actions per turn, remove action from list when done
+        ActionType newActionType = m_currentActionType;
+        if (actionType == "move")
+        {
+            newActionType = ActionType.Move;
+        }
+        else if (actionType == "ability")
+        {
+            newActionType = ActionType.Ability;
+        }
+        else
+        {
+            Debug.LogError("Unrecognized action type" + actionType);
+        }
+
+        if (m_currentActionType != newActionType)
+        {
+            TileHighlighting(m_currentActionType, false);
+            TileHighlighting(newActionType, true);
+            m_currentActionType = newActionType;
+        }
+    }
+
+    void TileHighlighting(ActionType action, bool turnOn)
+    {
+        List<Vector2> tilesToHighlight = GetActionCoordinates(action, m_selectedCharacter);
+        foreach (var coords in tilesToHighlight)
+        {
+            m_boardManager.TilePreviewToggle(coords, turnOn);
+        }
+    }
+    List<Vector2> GetActionCoordinates(ActionType actionType, CharacterControl character)
+    {
+        List<Vector2> actionCoords = new List<Vector2>();
+        Vector2 characterCoords = m_selectedCharacter.m_tilePosition.m_coordinates;
+
+        if (actionType == ActionType.Move)
+        {
+            actionCoords = character.m_movementCoordinates;
+        }
+        else if (actionType == ActionType.Ability)
+        {
+            actionCoords = character.m_abilityCoordinates;
+        }
+        List<Vector2> coordsOnBoard = new List<Vector2>();
+        foreach (var coords in actionCoords)
+        {
+           Vector2 newCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
+            coordsOnBoard.Add(newCoords);
+        }
+        return coordsOnBoard;
     }
 }

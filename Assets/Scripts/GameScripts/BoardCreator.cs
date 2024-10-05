@@ -38,22 +38,20 @@ public class BoardCreator : MonoBehaviour
         return m_tiles[2,2];
     }
 
-    public void TilePreviewOn(Vector2 coords)
+    public void TilePreviewToggle(Vector2 coords, bool previewOn)
     { 
         if (coords.x >= 0 && coords.y >= 0
             && coords.x < m_xWidth && coords.y < m_zWidth)
         {
             TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
-            tile.TilePreviewOn();
-        }
-    }
-    public void TilePreviewOff(Vector2 coords)
-    {
-        if (coords.x >= 0 && coords.y >= 0
-            && coords.x < m_xWidth && coords.y < m_zWidth)
-        {
-            TileControl tile = m_tiles[(int)coords.x, (int)coords.y];
-            tile.TilePreviewOff();
+            if (previewOn)
+            {
+                tile.TilePreviewOn();
+            }
+            else
+            {
+                tile.TilePreviewOff();
+            }
         }
     }
 }
