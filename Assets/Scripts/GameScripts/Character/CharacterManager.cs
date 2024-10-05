@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    enum ActionType {Move, Ability};
+    enum ActionType {Move, Ability}; // TODO move types, etc to own master file
     [SerializeField] GameObject m_characterPrefab;
     [SerializeField] BoardCreator m_boardManager;   // TODO refactor this away
-    CharacterControl m_selectedCharacter;
+    PlayableCharacter m_selectedCharacter;
     [SerializeField] GameObject m_actionButtons;
     ActionType m_currentActionType = ActionType.Move;
     void Start()
@@ -19,31 +19,32 @@ public class CharacterManager : MonoBehaviour
     public void InitCharacters()
     {
         GameObject character = Instantiate(m_characterPrefab);
-        CharacterControl controller = character.GetComponent<CharacterControl>();
+        PlayableCharacter controller = character.GetComponent<PlayableCharacter>();
         controller.InitCharacter(m_boardManager.GetTileControl());
         controller.m_onCharacterSelect += CharacterClicked;
         controller.m_onCharacterDeselect += CharacterUnclicked;
     }
-     void CharacterClicked(CharacterControl character)
+
+     void CharacterClicked(PlayableCharacter character)
     {
         if (m_selectedCharacter != null) 
         {
             //other character has been selected, do nothing
             return;            
         }
-        character.CharacterSelected();
+        character.Selected();
         m_selectedCharacter = character;
         m_actionButtons.SetActive(true);
         TileHighlighting(m_currentActionType, true);
     }
 
-    void CharacterUnclicked(CharacterControl character)
+    void CharacterUnclicked(PlayableCharacter character)
     {
         if (m_selectedCharacter != character)
         {
             return;            
         }
-        character.CharacterDeselected();
+        character.Deselected();
         m_actionButtons.SetActive(false);
         TileHighlighting(m_currentActionType, false);
         m_selectedCharacter = null;
@@ -56,7 +57,7 @@ public class CharacterManager : MonoBehaviour
             return;
         }
         TileHighlighting(m_currentActionType, false);
-        m_selectedCharacter.SetTileToCharacter(tile);
+        m_selectedCharacter.UpdateTilePosition(tile);
     }
     public void SetSelectedAction(string actionType) //move, ability
     {
@@ -91,7 +92,7 @@ public class CharacterManager : MonoBehaviour
             m_boardManager.TilePreviewToggle(coords, turnOn);
         }
     }
-    List<Vector2> GetActionCoordinates(ActionType actionType, CharacterControl character)
+    List<Vector2> GetActionCoordinates(ActionType actionType, PlayableCharacter character)
     {
         List<Vector2> actionCoords = new List<Vector2>();
         Vector2 characterCoords = m_selectedCharacter.m_tilePosition.m_coordinates;
