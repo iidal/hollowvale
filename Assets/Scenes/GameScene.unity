@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 242091582}
   - component: {fileID: 242091581}
   - component: {fileID: 242091583}
+  - component: {fileID: 242091584}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_boardManager: {fileID: 917180085}
   m_characterManager: {fileID: 242091583}
+  m_battleSystem: {fileID: 242091584}
 --- !u!4 &242091582
 Transform:
   m_ObjectHideFlags: 0
@@ -315,9 +317,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd06de539cf33649963c4138921bb75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_characterPrefab: {fileID: 6125209405915987295, guid: 954ace9910e7de6409de23a0c00f58c6, type: 3}
   m_boardManager: {fileID: 917180085}
+  m_characterPrefab: {fileID: 6125209405915987295, guid: 954ace9910e7de6409de23a0c00f58c6, type: 3}
+  m_enemyPrefab: {fileID: 6125209405915987295, guid: 81d18ffb09118704685fd571f8793871, type: 3}
+  m_selectedCharacter: {fileID: 0}
   m_actionButtons: {fileID: 1234459832}
+  m_currentActionType: 0
+--- !u!114 &242091584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242091580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a8459ddc4028b44e89912f18212c36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &318248303
 GameObject:
   m_ObjectHideFlags: 0

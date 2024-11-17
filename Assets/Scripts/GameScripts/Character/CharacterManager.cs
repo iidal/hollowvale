@@ -3,14 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ActionType {Move, Ability};
+
 public class CharacterManager : MonoBehaviour
 {
-    enum ActionType {Move, Ability}; // TODO move types, etc to own master file
-    [SerializeField] GameObject m_characterPrefab;
     [SerializeField] BoardCreator m_boardManager;   // TODO refactor this away
-    PlayableCharacter m_selectedCharacter;
+    
+    // Prefabs and characters
+    Dictionary<string, PlayableCharacter> m_playableCharacters = new Dictionary<string, PlayableCharacter>();
+    Dictionary<string, EnemyCharacter> m_enemyCharacters = new Dictionary<string, EnemyCharacter>();
+    [SerializeField] GameObject m_characterPrefab;
+    [SerializeField] GameObject m_enemyPrefab;
+    public PlayableCharacter m_selectedCharacter;
+    EnemyCharacter m_selectedEnemy;
+    
+    // Actions etc
     [SerializeField] GameObject m_actionButtons;
-    ActionType m_currentActionType = ActionType.Move;
+    public ActionType m_currentActionType = ActionType.Move;
     void Start()
     {
         m_actionButtons.SetActive(false);
@@ -20,9 +29,17 @@ public class CharacterManager : MonoBehaviour
     {
         GameObject character = Instantiate(m_characterPrefab);
         PlayableCharacter controller = character.GetComponent<PlayableCharacter>();
-        controller.InitCharacter(m_boardManager.GetTileControl());
+        controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(2,2)), this);
         controller.m_onCharacterSelect += CharacterClicked;
         controller.m_onCharacterDeselect += CharacterUnclicked;
+        m_playableCharacters.Add("some_id", controller); // TODO figure out id management
+    }
+    public void InitEnemies()
+    {
+        GameObject enemy = Instantiate(m_enemyPrefab);
+        EnemyCharacter controller = enemy.GetComponent<EnemyCharacter>();
+        controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(1,1)), this);
+        controller.m_onEnemySelect += EnemyClicked;
     }
 
      void CharacterClicked(PlayableCharacter character)
@@ -48,6 +65,11 @@ public class CharacterManager : MonoBehaviour
         m_actionButtons.SetActive(false);
         TileHighlighting(m_currentActionType, false);
         m_selectedCharacter = null;
+    }
+    void EnemyClicked(EnemyCharacter enemy)
+    {
+        Debug.Log("character manager enemy clicked");
+        enemy.Selected();
     }
     public void MoveCharacter(TileControl tile)
     {
@@ -86,31 +108,31 @@ public class CharacterManager : MonoBehaviour
 
     void TileHighlighting(ActionType action, bool turnOn)
     {
-        List<Vector2> tilesToHighlight = GetActionCoordinates(action, m_selectedCharacter);
+        List<Vector2> tilesToHighlight = m_selectedCharacter.GetActionCoordinates(action);
         foreach (var coords in tilesToHighlight)
         {
             m_boardManager.TilePreviewToggle(coords, turnOn);
         }
     }
-    List<Vector2> GetActionCoordinates(ActionType actionType, PlayableCharacter character)
-    {
-        List<Vector2> actionCoords = new List<Vector2>();
-        Vector2 characterCoords = m_selectedCharacter.m_tilePosition.m_coordinates;
+    // List<Vector2> GetActionCoordinates(ActionType actionType, PlayableCharacter character)
+    // {
+    //     List<Vector2> actionCoords = new List<Vector2>();
+    //     Vector2 characterCoords = m_selectedCharacter.m_tilePosition.m_coordinates;
 
-        if (actionType == ActionType.Move)
-        {
-            actionCoords = character.m_movementCoordinates;
-        }
-        else if (actionType == ActionType.Ability)
-        {
-            actionCoords = character.m_abilityCoordinates;
-        }
-        List<Vector2> coordsOnBoard = new List<Vector2>();
-        foreach (var coords in actionCoords)
-        {
-           Vector2 newCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
-            coordsOnBoard.Add(newCoords);
-        }
-        return coordsOnBoard;
-    }
+    //     if (actionType == ActionType.Move)
+    //     {
+    //         actionCoords = character.m_movementCoordinates;
+    //     }
+    //     else if (actionType == ActionType.Ability)
+    //     {
+    //         actionCoords = character.m_abilityCoordinates;
+    //     }
+    //     List<Vector2> coordsOnBoard = new List<Vector2>();
+    //     foreach (var coords in actionCoords)
+    //     {
+    //        Vector2 newCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
+    //         coordsOnBoard.Add(newCoords);
+    //     }
+    //     return coordsOnBoard;
+    // }
 }

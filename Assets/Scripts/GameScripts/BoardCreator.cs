@@ -33,9 +33,9 @@ public class BoardCreator : MonoBehaviour
         m_characterManager.MoveCharacter(tile);
     }
 
-    public TileControl GetTileControl(){
+    public TileControl GetTileControl(Vector2 coordinates){
         //TODOreturn some tile for example for character initiation position
-        return m_tiles[2,2];
+        return m_tiles[(int)coordinates.x, (int)coordinates.y];
     }
 
     public void TilePreviewToggle(Vector2 coords, bool previewOn)

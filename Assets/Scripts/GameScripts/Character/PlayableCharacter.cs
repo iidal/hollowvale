@@ -35,7 +35,8 @@ public class PlayableCharacter : Character, IClickable
         m_movementCoordinates.Add(new Vector2(1, -1));
         m_movementCoordinates.Add(new Vector2(2,0));
 
-
+        m_damageAmount = 100;
+        m_currentHealth = 200;
         m_highlightHover.SetActive(false);
     }
 

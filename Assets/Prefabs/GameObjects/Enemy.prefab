@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6125209405915987295}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.3, y: 0, z: 3.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69,9 +69,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d31749b8026f36b4fa93c7d74e84cb90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_currentHealth: 0
+  m_maxHealth: 0
+  m_currentArmor: 0
+  m_damageAmount: 0
+  m_healAmount: 0
   m_tilePosition: {fileID: 0}
   m_movementCoordinates: []
   m_abilityCoordinates: []
+  m_highlightHover: {fileID: 7625362615131658753}
 --- !u!1 &7255894751721373411
 GameObject:
   m_ObjectHideFlags: 0
