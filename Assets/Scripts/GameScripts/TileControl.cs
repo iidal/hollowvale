@@ -13,6 +13,7 @@ public class TileControl : MonoBehaviour
     BoardCreator m_boardManager;
     bool m_mouseHover = false;
     bool m_tilePreviewOn = false;
+    bool m_tileAvailable = true;
 
     void Start()
     {
@@ -74,5 +75,13 @@ public class TileControl : MonoBehaviour
             m_highlightHover.SetActive(false);
             m_onTileSelect.Invoke(this);
         }
+    }
+    public void SetTileAvailability(bool availableState)
+    {
+        m_tileAvailable = availableState;
+    }
+    public bool IsTileAvailable()
+    {
+        return m_tileAvailable;
     }
 }

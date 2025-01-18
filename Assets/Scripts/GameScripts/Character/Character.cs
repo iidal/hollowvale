@@ -33,6 +33,11 @@ public class Character : MonoBehaviour
     public void UpdateTilePosition(TileControl tile)
     {
         Debug.Log("update tile position");
+        if(m_tilePosition != null)
+        {
+            m_tilePosition.SetTileAvailability(true);
+        }
+        tile.SetTileAvailability(false);
 
         m_tilePosition = tile;
         Debug.Log("set tile position" + m_tilePosition.m_coordinates.x + " " + m_tilePosition.m_coordinates.y);
@@ -91,7 +96,7 @@ public class Character : MonoBehaviour
         List<Vector2> coordsOnBoard = new List<Vector2>();
         foreach (var coords in actionCoords)
         {
-           Vector2 newCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
+            Vector2 newCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
             coordsOnBoard.Add(newCoords);
         }
         return coordsOnBoard;

@@ -28,16 +28,24 @@ public class BoardCreator : MonoBehaviour
             }
         }
     }
+
+    //================================================================================================================
+    public TileControl[,] GetTiles()
+    {
+        return m_tiles;
+    }
+
+    //================================================================================================================
     void TileClicked(TileControl tile)
     {
         m_characterManager.MoveCharacter(tile);
     }
-
+    //================================================================================================================
     public TileControl GetTileControl(Vector2 coordinates){
         //TODOreturn some tile for example for character initiation position
         return m_tiles[(int)coordinates.x, (int)coordinates.y];
     }
-
+    //================================================================================================================
     public void TilePreviewToggle(Vector2 coords, bool previewOn)
     { 
         if (coords.x >= 0 && coords.y >= 0

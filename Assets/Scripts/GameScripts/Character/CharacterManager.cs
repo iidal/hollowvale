@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Collections;
 using UnityEngine;
 
 public enum ActionType {Move, Ability};
@@ -32,8 +34,9 @@ public class CharacterManager : MonoBehaviour
         controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(2,2)), this);
         controller.m_onCharacterSelect += CharacterClicked;
         controller.m_onCharacterDeselect += CharacterUnclicked;
-        m_playableCharacters.Add("some_id", controller); // TODO figure out id management
+        m_playableCharacters.Add("some_id", controller); // TODO figure out id management maybe idk
     }
+    //================================================================================================================
     public void InitEnemies()
     {
         GameObject enemy = Instantiate(m_enemyPrefab);
@@ -41,7 +44,7 @@ public class CharacterManager : MonoBehaviour
         controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(1,1)), this);
         controller.m_onEnemySelect += EnemyClicked;
     }
-
+//================================================================================================================
      void CharacterClicked(PlayableCharacter character)
     {
         if (m_selectedCharacter != null) 
@@ -54,7 +57,7 @@ public class CharacterManager : MonoBehaviour
         m_actionButtons.SetActive(true);
         TileHighlighting(m_currentActionType, true);
     }
-
+//================================================================================================================
     void CharacterUnclicked(PlayableCharacter character)
     {
         if (m_selectedCharacter != character)
@@ -66,11 +69,13 @@ public class CharacterManager : MonoBehaviour
         TileHighlighting(m_currentActionType, false);
         m_selectedCharacter = null;
     }
+    //================================================================================================================
     void EnemyClicked(EnemyCharacter enemy)
     {
         Debug.Log("character manager enemy clicked");
         enemy.Selected();
     }
+    //================================================================================================================
     public void MoveCharacter(TileControl tile)
     {
         if (m_selectedCharacter == null)
@@ -81,6 +86,7 @@ public class CharacterManager : MonoBehaviour
         TileHighlighting(m_currentActionType, false);
         m_selectedCharacter.UpdateTilePosition(tile);
     }
+    //================================================================================================================
     public void SetSelectedAction(string actionType) //move, ability
     {
         // TODO: hold a list of available actions per turn, remove action from list when done
@@ -105,34 +111,37 @@ public class CharacterManager : MonoBehaviour
             m_currentActionType = newActionType;
         }
     }
-
+    //================================================================================================================
     void TileHighlighting(ActionType action, bool turnOn)
     {
         List<Vector2> tilesToHighlight = m_selectedCharacter.GetActionCoordinates(action);
+        if(action == ActionType.Move)
+        {
+            tilesToHighlight = MovementTilesChecking(tilesToHighlight);
+        }
         foreach (var coords in tilesToHighlight)
         {
             m_boardManager.TilePreviewToggle(coords, turnOn);
         }
     }
-    // List<Vector2> GetActionCoordinates(ActionType actionType, PlayableCharacter character)
-    // {
-    //     List<Vector2> actionCoords = new List<Vector2>();
-    //     Vector2 characterCoords = m_selectedCharacter.m_tilePosition.m_coordinates;
-
-    //     if (actionType == ActionType.Move)
-    //     {
-    //         actionCoords = character.m_movementCoordinates;
-    //     }
-    //     else if (actionType == ActionType.Ability)
-    //     {
-    //         actionCoords = character.m_abilityCoordinates;
-    //     }
-    //     List<Vector2> coordsOnBoard = new List<Vector2>();
-    //     foreach (var coords in actionCoords)
-    //     {
-    //        Vector2 newCoords = new Vector2((int)(characterCoords.x + coords.x), (int)(characterCoords.y + coords.y));
-    //         coordsOnBoard.Add(newCoords);
-    //     }
-    //     return coordsOnBoard;
-    // }
+    //================================================================================================================
+    // For tiles for movement, remove tiles where moving is not possible (tile is occupied)
+    List<Vector2> MovementTilesChecking(List<Vector2> tilesList)
+    {
+        List<Vector2> allowedTiles = new List<Vector2>();
+        TileControl[,] tiles = m_boardManager.GetTiles();
+        foreach(var tile in tilesList)
+        {
+            Debug.Log(tile.x + "and " + tile.y);
+            if(tile.x < 0 || tile.y < 0 || tile.x > tiles.GetLength(0)-1 || tile.y > tiles.GetLength(1)-1)
+            {
+                continue;
+            }
+            if(tiles[(int)tile.x, (int)tile.y].IsTileAvailable())
+            {
+                allowedTiles.Add(tile);
+            }
+        }
+        return allowedTiles;
+    }
 }
