@@ -32,7 +32,6 @@ public class Character : MonoBehaviour
     //================================================================================================================
     public void UpdateTilePosition(TileControl tile)
     {
-        Debug.Log("update tile position");
         if(m_tilePosition != null)
         {
             m_tilePosition.SetTileAvailability(true);
@@ -40,7 +39,6 @@ public class Character : MonoBehaviour
         tile.SetTileAvailability(false);
 
         m_tilePosition = tile;
-        Debug.Log("set tile position" + m_tilePosition.m_coordinates.x + " " + m_tilePosition.m_coordinates.y);
         transform.SetPositionAndRotation(m_tilePosition.transform.position, Quaternion.identity);
     }
 
@@ -77,16 +75,16 @@ public class Character : MonoBehaviour
 
     //================================================================================================================
     // Return characters action coordinates relative to the board and characters position
-    public List<Vector2> GetActionCoordinates(ActionType actionType)
+    public List<Vector2> GetActionCoordinates(GameState.ActionType actionType)
     {
         List<Vector2> actionCoords = new List<Vector2>();
         Vector2 characterCoords = m_tilePosition.m_coordinates;
         switch (actionType)
         {
-            case ActionType.Move:
+            case GameState.ActionType.Move:
                 actionCoords = m_movementCoordinates;
                 break;
-            case ActionType.Ability:
+            case GameState.ActionType.Ability:
                 actionCoords = m_abilityCoordinates;
                 break;
             default:

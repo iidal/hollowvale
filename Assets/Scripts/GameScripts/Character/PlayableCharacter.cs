@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -58,6 +58,7 @@ public class PlayableCharacter : Character, IClickable
         m_highlightClicked.SetActive(true);
         m_highlightHover.SetActive(false);
     }
+    
     public void Deselected()
     {
         m_characterSelected = false;

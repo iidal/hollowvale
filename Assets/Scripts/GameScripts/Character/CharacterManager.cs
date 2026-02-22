@@ -3,13 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public enum ActionType {Move, Ability};
+//public enum ActionType {Move, Ability};
 
 public class CharacterManager : MonoBehaviour
 {
     [SerializeField] BoardCreator m_boardManager;   // TODO refactor this away
+    [SerializeField] BoardActionManager m_actionManager;
     
     // Prefabs and characters
     Dictionary<string, PlayableCharacter> m_playableCharacters = new Dictionary<string, PlayableCharacter>();
@@ -20,11 +22,11 @@ public class CharacterManager : MonoBehaviour
     EnemyCharacter m_selectedEnemy;
     
     // Actions etc
-    [SerializeField] GameObject m_actionButtons;
-    public ActionType m_currentActionType = ActionType.Move;
+    // TODO should m_currentActionType actually be tracked in board action manager so its not in two places
+    public GameState.ActionType m_currentActionType = GameState.ActionType.Move;    
     void Start()
     {
-        m_actionButtons.SetActive(false);
+
     }
 
     public void InitCharacters()
@@ -44,6 +46,7 @@ public class CharacterManager : MonoBehaviour
         controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(1,1)), this);
         controller.m_onEnemySelect += EnemyClicked;
     }
+
 //================================================================================================================
      void CharacterClicked(PlayableCharacter character)
     {
@@ -52,11 +55,14 @@ public class CharacterManager : MonoBehaviour
             //other character has been selected, do nothing
             return;            
         }
+        m_currentActionType = (GameState.ActionType)m_actionManager.GetFirstUnusedAction();
+        Debug.Log("character clicked " + m_currentActionType);
         character.Selected();
         m_selectedCharacter = character;
-        m_actionButtons.SetActive(true);
+        m_actionManager.ShowActionButtons();
         TileHighlighting(m_currentActionType, true);
     }
+
 //================================================================================================================
     void CharacterUnclicked(PlayableCharacter character)
     {
@@ -65,7 +71,7 @@ public class CharacterManager : MonoBehaviour
             return;            
         }
         character.Deselected();
-        m_actionButtons.SetActive(false);
+        m_actionManager.HideActionButtons();
         TileHighlighting(m_currentActionType, false);
         m_selectedCharacter = null;
     }
@@ -74,30 +80,37 @@ public class CharacterManager : MonoBehaviour
     {
         Debug.Log("character manager enemy clicked");
         enemy.Selected();
+        m_actionManager.ActionTaken(GameState.ActionType.Ability);
     }
     //================================================================================================================
     public void MoveCharacter(TileControl tile)
     {
+        //  TODO this function should also include abilities 
+        // executing an action is done by selecting a tile, so attack/heal is checked by what character is in tile
+        // what about actions that affect multiple tiles
         if (m_selectedCharacter == null)
-        {
+        { 
             //error
             return;
         }
+
+        Debug.Log("MoveCharacter");
         TileHighlighting(m_currentActionType, false);
         m_selectedCharacter.UpdateTilePosition(tile);
+        m_actionManager.ActionTaken(GameState.ActionType.Move);
     }
     //================================================================================================================
     public void SetSelectedAction(string actionType) //move, ability
     {
-        // TODO: hold a list of available actions per turn, remove action from list when done
-        ActionType newActionType = m_currentActionType;
+        // TODO REFACTOR either this takes int or string, that is then casted to Actiontype in Gamestate, applies to BoardActionManager.ActionPreview too
+        GameState.ActionType newActionType = m_currentActionType;
         if (actionType == "move")
         {
-            newActionType = ActionType.Move;
+            newActionType = GameState.ActionType.Move;
         }
         else if (actionType == "ability")
         {
-            newActionType = ActionType.Ability;
+            newActionType = GameState.ActionType.Ability;
         }
         else
         {
@@ -112,10 +125,10 @@ public class CharacterManager : MonoBehaviour
         }
     }
     //================================================================================================================
-    void TileHighlighting(ActionType action, bool turnOn)
+    void TileHighlighting(GameState.ActionType action, bool turnOn)
     {
         List<Vector2> tilesToHighlight = m_selectedCharacter.GetActionCoordinates(action);
-        if(action == ActionType.Move)
+        if(action == GameState.ActionType.Move)
         {
             tilesToHighlight = MovementTilesChecking(tilesToHighlight);
         }
@@ -132,7 +145,6 @@ public class CharacterManager : MonoBehaviour
         TileControl[,] tiles = m_boardManager.GetTiles();
         foreach(var tile in tilesList)
         {
-            Debug.Log(tile.x + "and " + tile.y);
             if(tile.x < 0 || tile.y < 0 || tile.x > tiles.GetLength(0)-1 || tile.y > tiles.GetLength(1)-1)
             {
                 continue;

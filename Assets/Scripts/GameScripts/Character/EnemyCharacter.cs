@@ -38,7 +38,7 @@ public class EnemyCharacter : Character, IClickable
     {
         Debug.Log("enemy mouse down");
         PlayableCharacter currentCharacter = m_characterManager.m_selectedCharacter;
-        if (currentCharacter == null && m_characterManager.m_currentActionType != ActionType.Ability)
+        if (currentCharacter == null && m_characterManager.m_currentActionType != GameState.ActionType.Ability)
         {
             Debug.Log("DONT attack");
             return;

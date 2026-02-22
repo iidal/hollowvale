@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 153775925}
   - component: {fileID: 153775924}
   - component: {fileID: 153775923}
+  - component: {fileID: 153775926}
   m_Layer: 5
-  m_Name: Attack
+  m_Name: Ability
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -218,6 +219,18 @@ MonoBehaviour:
           m_StringArgument: ability
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 242091585}
+        m_TargetAssemblyTypeName: BoardActionManager, Assembly-CSharp
+        m_MethodName: ActionPreview
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &153775924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,8 +251,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 2ff65aea1cb1bb14495981580f8c2a18, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -256,6 +269,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 153775921}
   m_CullTransparentMesh: 1
+--- !u!114 &153775926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153775921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b608ff825b06ef4d999fc0a4e625685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_button: {fileID: 153775923}
+  m_buttonImage: {fileID: 153775924}
+  m_normalSprite: {fileID: 21300000, guid: 2ff65aea1cb1bb14495981580f8c2a18, type: 3}
+  m_highlightSprite: {fileID: 21300000, guid: d0a2f2c068931464c978cb8ce16681e0, type: 3}
+  m_inactiveSprite: {fileID: 21300000, guid: 2cbd4557352c9a046a94e6ed8a06c71c, type: 3}
 --- !u!1 &242091580
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +298,7 @@ GameObject:
   - component: {fileID: 242091581}
   - component: {fileID: 242091583}
   - component: {fileID: 242091584}
+  - component: {fileID: 242091585}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -318,10 +349,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_boardManager: {fileID: 917180085}
+  m_actionManager: {fileID: 242091585}
   m_characterPrefab: {fileID: 6125209405915987295, guid: 954ace9910e7de6409de23a0c00f58c6, type: 3}
   m_enemyPrefab: {fileID: 6125209405915987295, guid: 81d18ffb09118704685fd571f8793871, type: 3}
   m_selectedCharacter: {fileID: 0}
-  m_actionButtons: {fileID: 1234459832}
   m_currentActionType: 0
 --- !u!114 &242091584
 MonoBehaviour:
@@ -335,6 +366,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a8459ddc4028b44e89912f18212c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &242091585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242091580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60f9ab7674193ec40a142ad78e08f80e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_moveButton: {fileID: 1431712519}
+  m_abilityButton: {fileID: 153775926}
+  m_endTurnButton: {fileID: 1079969238}
+  m_actionButtons: {fileID: 453119676}
 --- !u!1 &318248303
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,8 +448,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -658,6 +705,7 @@ GameObject:
   - component: {fileID: 1079969237}
   - component: {fileID: 1079969236}
   - component: {fileID: 1079969235}
+  - component: {fileID: 1079969238}
   m_Layer: 5
   m_Name: EndTurn
   m_TagString: Untagged
@@ -749,8 +797,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 420488a56a92c3843a214848940e35c7, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -767,6 +815,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079969233}
   m_CullTransparentMesh: 1
+--- !u!114 &1079969238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1079969233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b608ff825b06ef4d999fc0a4e625685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_button: {fileID: 1079969235}
+  m_buttonImage: {fileID: 1079969236}
+  m_normalSprite: {fileID: 21300000, guid: bd4be424aa200924988f1dc96eb4ca5b, type: 3}
+  m_highlightSprite: {fileID: 21300000, guid: 7228912e4e39720448948864da3f4d1e, type: 3}
+  m_inactiveSprite: {fileID: 21300000, guid: 420488a56a92c3843a214848940e35c7, type: 3}
 --- !u!1 &1234459832
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,6 +1010,7 @@ GameObject:
   - component: {fileID: 1431712518}
   - component: {fileID: 1431712517}
   - component: {fileID: 1431712516}
+  - component: {fileID: 1431712519}
   m_Layer: 5
   m_Name: Move
   m_TagString: Untagged
@@ -996,7 +1062,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1028,6 +1094,18 @@ MonoBehaviour:
           m_StringArgument: move
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 242091585}
+        m_TargetAssemblyTypeName: BoardActionManager, Assembly-CSharp
+        m_MethodName: ActionPreview
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1431712517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1048,8 +1126,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 2ff65aea1cb1bb14495981580f8c2a18, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1066,6 +1144,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431712514}
   m_CullTransparentMesh: 1
+--- !u!114 &1431712519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431712514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b608ff825b06ef4d999fc0a4e625685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_button: {fileID: 1431712516}
+  m_buttonImage: {fileID: 1431712517}
+  m_normalSprite: {fileID: 21300000, guid: 2ff65aea1cb1bb14495981580f8c2a18, type: 3}
+  m_highlightSprite: {fileID: 21300000, guid: d0a2f2c068931464c978cb8ce16681e0, type: 3}
+  m_inactiveSprite: {fileID: 21300000, guid: 2cbd4557352c9a046a94e6ed8a06c71c, type: 3}
 --- !u!1 &1437824297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,7 +1218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Attack
+  m_text: Ability
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1132,8 +1227,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1336,8 +1431,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
