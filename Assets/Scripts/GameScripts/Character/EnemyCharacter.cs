@@ -43,7 +43,7 @@ public class EnemyCharacter : Character, IClickable
             Debug.Log("DONT attack current char null and action not ability");
             return;
         }
-        if (!IsEnemyInRange())
+        if (!IsTargetCharacterInRange())
         {
         Debug.Log("DONT attack, not in range");
 
@@ -60,19 +60,5 @@ public class EnemyCharacter : Character, IClickable
     void OnMouseExit()
     {
         m_mouseHover = false;
-    }
-    bool IsEnemyInRange()
-    {
-        // TODO this checking enemys pos on the board agains characters ability coords that are to char pos....
-        Debug.Log("isenemyinrange pos " + m_tilePosition.m_coordinates.x + " " + m_tilePosition.m_coordinates.y);
-        foreach (var coordinates in m_characterManager.m_selectedCharacter.m_abilityCoordinates)
-        {
-            Debug.Log("abilitycoords " + coordinates.x + " " + coordinates.y);
-            if (m_tilePosition.m_coordinates.x == coordinates.x && m_tilePosition.m_coordinates.y == coordinates.y)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }

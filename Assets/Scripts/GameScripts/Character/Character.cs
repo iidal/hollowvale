@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
     public List<Vector2> m_movementCoordinates; // make this private and accessed via a function
                                                 // temporary, should be initialized from json config
     public List<Vector2> m_abilityCoordinates; // make this private and accessed via a function
-                                                // temporary, should be initialized from json config
+                                               // temporary, should be initialized from json config
 
     //================================================================================================================
     public void InitCharacter(TileControl tile, CharacterManager characterManager)
@@ -32,7 +32,7 @@ public class Character : MonoBehaviour
     //================================================================================================================
     public void UpdateTilePosition(TileControl tile)
     {
-        if(m_tilePosition != null)
+        if (m_tilePosition != null)
         {
             m_tilePosition.SetTileAvailability(true);
         }
@@ -98,5 +98,30 @@ public class Character : MonoBehaviour
             coordsOnBoard.Add(newCoords);
         }
         return coordsOnBoard;
+    }
+    //================================================================================================================
+    // TODO this should be as generic as possible, take the coordinates as input, etc
+    // also this logic should be handled by a manager
+    public bool IsTargetCharacterInRange()
+    {
+        // TODO define a type for coordinates set? using coordSet = List<Vector2>
+        Character srcCharacter = m_characterManager.m_selectedCharacter;
+        List<Vector2> absAbilityCoords = new();
+        foreach (Vector2 abilityCoords in srcCharacter.m_abilityCoordinates)
+        {
+            var x = abilityCoords.x + srcCharacter.m_tilePosition.m_coordinates.x;
+            var y = abilityCoords.y + srcCharacter.m_tilePosition.m_coordinates.y;
+            absAbilityCoords.Add(new Vector2(x, y));
+        }
+        Debug.Log("isenemyinrange pos " + m_tilePosition.m_coordinates.x + " " + m_tilePosition.m_coordinates.y);
+        foreach (var coordinates in absAbilityCoords)
+        {
+            Debug.Log("abilitycoords " + coordinates.x + " " + coordinates.y);
+            if (m_tilePosition.m_coordinates.x == coordinates.x && m_tilePosition.m_coordinates.y == coordinates.y)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

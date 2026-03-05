@@ -17,4 +17,8 @@ public class GameManager : MonoBehaviour
         m_characterManager.InitCharacters();
         m_battleSystem.InitMatch(m_characterManager);
     }
+
+    // This class should have references to characters
+    // ie for example the character doesnt control checking and doing damage
+    // a manager handles doing actions on one character and applying those to other characters
 }

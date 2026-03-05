@@ -91,6 +91,7 @@ public class BoardActionManager : MonoBehaviour
             ResetTurn();
         }
     }
+    //=======================================================================================================
     void ResetTurn()
     {
         m_moveButton.Reset();

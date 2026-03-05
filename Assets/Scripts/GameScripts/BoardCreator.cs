@@ -12,6 +12,7 @@ public class BoardCreator : MonoBehaviour
     [SerializeField] private GameObject m_tilePrefab;
     [SerializeField] private CharacterManager m_characterManager;
 
+// What does this do
     public void CreateBoard()
     {
         m_tiles = new TileControl[m_xWidth, m_zWidth];
@@ -30,22 +31,27 @@ public class BoardCreator : MonoBehaviour
     }
 
     //================================================================================================================
+    // What does this do
     public TileControl[,] GetTiles()
     {
         return m_tiles;
     }
 
     //================================================================================================================
+// What does this do   
     void TileClicked(TileControl tile)
     {
+        // check here if character is selected before calling MoveCharacter
         m_characterManager.MoveCharacter(tile);
     }
     //================================================================================================================
+// What does this do 
     public TileControl GetTileControl(Vector2 coordinates){
         //TODOreturn some tile for example for character initiation position
         return m_tiles[(int)coordinates.x, (int)coordinates.y];
     }
     //================================================================================================================
+// What does this do
     public void TilePreviewToggle(Vector2 coords, bool previewOn)
     { 
         if (coords.x >= 0 && coords.y >= 0
