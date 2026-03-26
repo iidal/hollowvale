@@ -41,7 +41,11 @@ public class BoardCreator : MonoBehaviour
 // What does this do   
     void TileClicked(TileControl tile)
     {
-        // check here if character is selected before calling MoveCharacter
+        if(m_characterManager.m_currentActionType != GameState.ActionType.Move)
+        {
+            Debug.Log("Clicked tile but not doing move right now");
+            return;
+        }
         m_characterManager.MoveCharacter(tile);
     }
     //================================================================================================================

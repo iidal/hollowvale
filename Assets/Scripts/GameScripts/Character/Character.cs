@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
     public uint m_currentArmor;
     public uint m_damageAmount;
     public uint m_healAmount;
-    public bool m_interactable = false;
+    [SerializeField] private bool m_interactable = false;
 
     //Character positioning, action ranges
     public TileControl m_tilePosition; // Temporarily public, get via function
@@ -28,7 +28,16 @@ public class Character : MonoBehaviour
         UpdateTilePosition(tile);
         m_characterManager = characterManager;
     }
-
+    //================================================================================================================
+    public void SetCharacterInteractable(bool interactable)
+    {
+        m_interactable = interactable;
+    }
+    //================================================================================================================
+    public bool GetCharacterInteractable()
+    {
+        return m_interactable;
+    }
     //================================================================================================================
     public void UpdateTilePosition(TileControl tile)
     {
@@ -77,7 +86,7 @@ public class Character : MonoBehaviour
     // Return characters action coordinates relative to the board and characters position
     public List<Vector2> GetActionCoordinates(GameState.ActionType actionType)
     {
-        List<Vector2> actionCoords = new List<Vector2>();
+        List<Vector2> actionCoords = new();
         Vector2 characterCoords = m_tilePosition.m_coordinates;
         switch (actionType)
         {
@@ -102,6 +111,7 @@ public class Character : MonoBehaviour
     //================================================================================================================
     // TODO this should be as generic as possible, take the coordinates as input, etc
     // also this logic should be handled by a manager
+    // REMOVE THIS AND USE THE ONE IN CHARACTER MANAGER
     public bool IsTargetCharacterInRange()
     {
         // TODO define a type for coordinates set? using coordSet = List<Vector2>

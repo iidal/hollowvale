@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
+[RequireComponent(typeof(Image))]
 public class GameButton : MonoBehaviour
 {
     [SerializeField] Button m_button;
@@ -13,7 +14,7 @@ public class GameButton : MonoBehaviour
     [SerializeField] Sprite m_highlightSprite;
     [SerializeField] Sprite m_inactiveSprite;
 
-    void Start()
+    void Awake()
     {
         m_button = GetComponent<Button>();
         m_buttonImage = GetComponent<Image>();

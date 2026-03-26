@@ -16,24 +16,24 @@ public class PlayableCharacter : Character, IClickable
 
     void Start()
     {
-        m_abilityCoordinates.Add(new Vector2(-1,0));
-        m_abilityCoordinates.Add(new Vector2(0,1));
-        m_abilityCoordinates.Add(new Vector2(1,0));
+        m_abilityCoordinates.Add(new Vector2(-1, 0));
+        m_abilityCoordinates.Add(new Vector2(0, 1));
+        m_abilityCoordinates.Add(new Vector2(1, 0));
         m_abilityCoordinates.Add(new Vector2(0, -1));
 
-        m_movementCoordinates.Add(new Vector2(-2,0));
-        m_movementCoordinates.Add(new Vector2(-1,1));
-        m_movementCoordinates.Add(new Vector2(-1,0));
-        m_movementCoordinates.Add(new Vector2(-1,-1));
+        m_movementCoordinates.Add(new Vector2(-2, 0));
+        m_movementCoordinates.Add(new Vector2(-1, 1));
+        m_movementCoordinates.Add(new Vector2(-1, 0));
+        m_movementCoordinates.Add(new Vector2(-1, -1));
         m_movementCoordinates.Add(new Vector2(0, 2));
-        m_movementCoordinates.Add(new Vector2(0,1));
-        m_movementCoordinates.Add(new Vector2(0,0));
-        m_movementCoordinates.Add(new Vector2(0,-1));
+        m_movementCoordinates.Add(new Vector2(0, 1));
+        m_movementCoordinates.Add(new Vector2(0, 0));
+        m_movementCoordinates.Add(new Vector2(0, -1));
         m_movementCoordinates.Add(new Vector2(0, -2));
-        m_movementCoordinates.Add(new Vector2(1,1));
-        m_movementCoordinates.Add(new Vector2(1,0));
+        m_movementCoordinates.Add(new Vector2(1, 1));
+        m_movementCoordinates.Add(new Vector2(1, 0));
         m_movementCoordinates.Add(new Vector2(1, -1));
-        m_movementCoordinates.Add(new Vector2(2,0));
+        m_movementCoordinates.Add(new Vector2(2, 0));
 
         m_damageAmount = 100;
         m_currentHealth = 200;
@@ -58,7 +58,7 @@ public class PlayableCharacter : Character, IClickable
         m_highlightClicked.SetActive(true);
         m_highlightHover.SetActive(false);
     }
-    
+
     public void Deselected()
     {
         m_characterSelected = false;
@@ -67,6 +67,10 @@ public class PlayableCharacter : Character, IClickable
 
     void OnMouseDown()
     {
+        if (!GetCharacterInteractable())
+        {
+            return;
+        }
         if (!m_characterSelected)
         {
             m_onCharacterSelect.Invoke(this);
@@ -78,11 +82,16 @@ public class PlayableCharacter : Character, IClickable
     }
     void OnMouseEnter()
     {
+        if (!GetCharacterInteractable())
+        {
+            return;
+        }
         m_mouseHover = true;
     }
 
     void OnMouseExit()
     {
+        // does this need check for interactable? maybe safer not to
         m_mouseHover = false;
     }
 }

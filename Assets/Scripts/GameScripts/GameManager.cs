@@ -9,13 +9,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] BoardCreator m_boardManager;
     [SerializeField] CharacterManager m_characterManager;
     [SerializeField] BattleSystem m_battleSystem;
+    [SerializeField] BoardActionManager m_boardActionManager;
 
     void Start()
     {
         m_boardManager.CreateBoard();
         m_characterManager.InitEnemies();
         m_characterManager.InitCharacters();
-        m_battleSystem.InitMatch(m_characterManager);
+        m_boardActionManager.Init();
+        m_battleSystem.InitMatch(m_characterManager, m_boardActionManager);
     }
 
     // This class should have references to characters

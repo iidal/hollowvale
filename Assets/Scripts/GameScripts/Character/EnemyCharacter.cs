@@ -36,7 +36,14 @@ public class EnemyCharacter : Character, IClickable
     }
     void OnMouseDown()
     {
+        if (!GetCharacterInteractable())
+        {
+            return;
+        }
         Debug.Log("mouse down on enemy");
+
+        // TODO redirect from here to character manager to handle actions
+
         PlayableCharacter currentCharacter = m_characterManager.m_selectedCharacter;
         if (currentCharacter == null && m_characterManager.m_currentActionType != GameState.ActionType.Ability)
         {
@@ -45,7 +52,7 @@ public class EnemyCharacter : Character, IClickable
         }
         if (!IsTargetCharacterInRange())
         {
-        Debug.Log("DONT attack, not in range");
+            Debug.Log("DONT attack, not in range");
 
             return;
         }
@@ -54,11 +61,16 @@ public class EnemyCharacter : Character, IClickable
     }
     void OnMouseEnter()
     {
+        if (!GetCharacterInteractable())
+        {
+            return;
+        }
         m_mouseHover = true;
     }
 
     void OnMouseExit()
     {
+        // no interactable check just to be safe
         m_mouseHover = false;
     }
 }

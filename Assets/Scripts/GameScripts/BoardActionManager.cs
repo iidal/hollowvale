@@ -14,17 +14,18 @@ public class BoardActionManager : MonoBehaviour
     [SerializeField] GameObject m_actionButtons;
 
 
-    void Start()
+    public void Init()
     {
         m_actions = new Dictionary<GameState.ActionType, bool>
         {
-            { GameState.ActionType.Ability, true },
-            { GameState.ActionType.Move, true}
+            { GameState.ActionType.Move, true},
+            { GameState.ActionType.Ability, true }
+
         };
         m_actionButtons.SetActive(false);
     }
 
-    void StartTurn()
+    public void StartTurn()
     {
         foreach (var key in m_actions.Keys.ToList()) 
         {
@@ -32,10 +33,11 @@ public class BoardActionManager : MonoBehaviour
         }
     }
 
-    public void ShowActionButtons()
+    public void ShowActionButtons(GameState.ActionType action)
     {
+        Debug.Log("ShowActionbuttons " + action);
         m_actionButtons.SetActive(true);
-        ActionPreview(GetFirstUnusedAction());
+        ActionPreview((int)action);
     }
 
     public void HideActionButtons()
@@ -47,7 +49,7 @@ public class BoardActionManager : MonoBehaviour
     {
         // TODO REFACTOR either this takes int or string, that is then casted to Actiontype in Gamestate, applies to CharacterManager.SetSelectedAction too
         GameState.ActionType actionType = GameState.IntToGameStateEnum(actionIndex);
-        // highlight the chosen action button (move is default)
+        // highlight the chosen action button
         switch (actionType)
         {
             case GameState.ActionType.Move:
@@ -63,6 +65,8 @@ public class BoardActionManager : MonoBehaviour
                 break;
         }
     }
+    //=======================================================================================================
+
     public void ActionTaken(GameState.ActionType actionType)
     {
         Debug.Log("ActionTaken " + actionType);
@@ -105,7 +109,7 @@ public class BoardActionManager : MonoBehaviour
         foreach (var key in m_actions.Keys.ToList())
         {
             if(m_actions[key] == true){
-                return (int)(key-1);
+                return (int)(key);
             }
         }
         Debug.LogWarning("Trying to get an unused action but all actions have been used, should not get here");
