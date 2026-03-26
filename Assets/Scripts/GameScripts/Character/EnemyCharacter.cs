@@ -19,6 +19,7 @@ public class EnemyCharacter : Character, IClickable
     {
         if (m_mouseHover)
         {
+            // TODO also check if needed to do mouse hover = ability that affects enemy
             m_highlightHover.SetActive(true);
         }
         else
@@ -48,6 +49,7 @@ public class EnemyCharacter : Character, IClickable
         if (currentCharacter == null && m_characterManager.m_currentActionType != GameState.ActionType.Ability)
         {
             Debug.Log("DONT attack current char null and action not ability");
+            // TODO highlight enemy movement/ ability (maybe simplest to highlight both at the same time and use different colors)
             return;
         }
         if (!IsTargetCharacterInRange())
@@ -63,6 +65,12 @@ public class EnemyCharacter : Character, IClickable
     {
         if (!GetCharacterInteractable())
         {
+            return;
+        }
+        if (m_characterManager.m_currentActionType == GameState.ActionType.Move)
+        {
+            // No need to highlight enemy is player has selected movement
+            // TODO ability can affect also affect other own character (heal), so that needs checking too
             return;
         }
         m_mouseHover = true;

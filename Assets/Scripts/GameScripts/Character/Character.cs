@@ -29,6 +29,7 @@ public class Character : MonoBehaviour
         m_characterManager = characterManager;
     }
     //================================================================================================================
+    
     public void SetCharacterInteractable(bool interactable)
     {
         m_interactable = interactable;

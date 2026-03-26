@@ -23,7 +23,7 @@ public class TileControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        //tiles are higlighted only if they are previeved for movement or abilities
+        // TODO tiles are higlighted only if they are previeved for movement or abilities
         if (m_tilePreviewOn)
         {
             TileHovering();
@@ -61,6 +61,7 @@ public class TileControl : MonoBehaviour
 
     void OnMouseEnter()
     {
+        // TODO skip mouse hover if currently selected action is not movement
         m_mouseHover = true;
     }
 

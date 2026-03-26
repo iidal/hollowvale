@@ -44,7 +44,9 @@ public class BoardActionManager : MonoBehaviour
     {
         m_actionButtons.SetActive(false);
     }
-
+// ========================================================================================
+// Highlighting buttons with sprite changes
+// TODO this could be combined with character managers action selection a little bit so no need to call two functions from editor
     public void ActionPreview(int actionIndex)
     {
         // TODO REFACTOR either this takes int or string, that is then casted to Actiontype in Gamestate, applies to CharacterManager.SetSelectedAction too
