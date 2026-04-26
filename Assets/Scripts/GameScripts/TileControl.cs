@@ -10,10 +10,10 @@ public class TileControl : MonoBehaviour
     [SerializeField] GameObject m_highlightClicked;
 
     public Vector2 m_coordinates; //temporary public, get via fucntion
-    BoardCreator m_boardManager;
     bool m_mouseHover = false;
     bool m_tilePreviewOn = false;
     bool m_tileAvailable = true;
+
 
     void Start()
     {
@@ -24,10 +24,10 @@ public class TileControl : MonoBehaviour
     void FixedUpdate()
     {
         // TODO tiles are higlighted only if they are previeved for movement or abilities
-        if (m_tilePreviewOn)
-        {
+       // if (m_tilePreviewOn)
+        //{
             TileHovering();
-        }
+        //}
     }
     void TileHovering()
     {
@@ -44,7 +44,6 @@ public class TileControl : MonoBehaviour
     public void InitTile(Vector2 coordinates, BoardCreator manager)
     {
         m_coordinates = coordinates;
-        m_boardManager = manager;
     }
 
     public void TilePreviewOn()
@@ -61,7 +60,6 @@ public class TileControl : MonoBehaviour
 
     void OnMouseEnter()
     {
-        // TODO skip mouse hover if currently selected action is not movement
         m_mouseHover = true;
     }
 
@@ -71,11 +69,11 @@ public class TileControl : MonoBehaviour
     }
     void OnMouseDown()
     {
-        if (m_tilePreviewOn)
-        {   // todo  Excecute action if movement
-            m_highlightHover.SetActive(false);
+       // if (m_tilePreviewOn)
+       // {
+            m_highlightHover.SetActive(false); // ?
             m_onTileSelect.Invoke(this);
-        }
+       // }
     }
     public void SetTileAvailability(bool availableState)
     {

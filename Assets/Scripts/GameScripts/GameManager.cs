@@ -6,16 +6,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] BoardCreator m_boardManager;
+    [SerializeField] BoardManager m_boardManager;
     [SerializeField] CharacterManager m_characterManager;
     [SerializeField] BattleSystem m_battleSystem;
     [SerializeField] BoardActionManager m_boardActionManager;
 
     void Start()
     {
+
         m_boardManager.CreateBoard();
+
+        m_characterManager.InitCharacters(); // temp, do in board manager/creation from config
         m_characterManager.InitEnemies();
-        m_characterManager.InitCharacters();
+        // TODO add all board objects need to be added to character manager m_boardObjecst
+
         m_boardActionManager.Init();
         m_battleSystem.InitMatch(m_characterManager, m_boardActionManager);
     }

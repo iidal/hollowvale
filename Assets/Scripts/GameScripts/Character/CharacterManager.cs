@@ -10,12 +10,13 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    [SerializeField] BoardCreator m_boardManager;   // TODO refactor this away
+    [SerializeField] BoardManager m_boardManager;   // TODO refactor this away
     [SerializeField] BoardActionManager m_actionManager;
 
     // Prefabs and characters
     Dictionary<string, PlayableCharacter> m_playableCharacters = new();
     Dictionary<string, EnemyCharacter> m_enemyCharacters = new();
+    List<BoardObject> m_boardObjects = new();
     [SerializeField] GameObject m_characterPrefab;
     [SerializeField] GameObject m_enemyPrefab;
     public PlayableCharacter m_selectedCharacter;
@@ -24,20 +25,18 @@ public class CharacterManager : MonoBehaviour
     // Actions etc
     // TODO should m_currentActionType actually be tracked in board action manager so its not in two places
     public GameState.ActionType m_currentActionType = GameState.ActionType.Move;
-
-    void Start()
-    {
-
-    }
+ //=====================================================================================
 
     public void InitCharacters()
     {
         GameObject character = Instantiate(m_characterPrefab);
         PlayableCharacter controller = character.GetComponent<PlayableCharacter>();
         controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(2, 2)), this);
-        controller.m_onCharacterSelect += CharacterClicked;
-        controller.m_onCharacterDeselect += CharacterUnclicked;
+        controller.BoardObjType = GameState.BoardObjType.Playable;
+        //controller.m_onCharacterSelect += CharacterClicked;
+        //controller.m_onCharacterDeselect += CharacterUnclicked;
         m_playableCharacters.Add("some_id", controller); // TODO figure out id management maybe idk
+        m_boardObjects.Add(controller);
     }
     //================================================================================================================
     public void InitEnemies()
@@ -45,8 +44,25 @@ public class CharacterManager : MonoBehaviour
         GameObject enemy = Instantiate(m_enemyPrefab);
         EnemyCharacter controller = enemy.GetComponent<EnemyCharacter>();
         controller.InitCharacter(m_boardManager.GetTileControl(new Vector2(1, 1)), this);
+        controller.BoardObjType = GameState.BoardObjType.Enemy;
         controller.m_onEnemySelect += EnemyClicked;
         m_enemyCharacters.Add("some_id", controller);
+        m_boardObjects.Add(controller);
+    }
+
+    //================================================================================================================
+    public BoardObject GetTileContent(Vector2 coordinates)
+    {
+        foreach (var obj in m_boardObjects)
+        {
+            if (obj.GetCoordinates().Equals(coordinates))
+            {
+                Debug.Log("return obj");
+                return obj;
+            }
+        }
+        Debug.Log("return nothing");
+        return null;
     }
     //================================================================================================================
     public void SetCharactersInteractable(bool interactable)
@@ -61,7 +77,7 @@ public class CharacterManager : MonoBehaviour
         }
     }
     //================================================================================================================
-    void CharacterClicked(PlayableCharacter character)
+    public void CharacterSelected(PlayableCharacter character)
     {
         if (m_selectedCharacter != null)
         {
@@ -98,12 +114,9 @@ public class CharacterManager : MonoBehaviour
     //================================================================================================================
     public void MoveCharacter(TileControl tile)
     {
-        //  TODO this function should also include abilities 
-        // executing an action is done by selecting a tile, so attack/heal is checked by what character is in tile
-        // what about actions that affect multiple tiles
         if (m_selectedCharacter == null)
         {
-            //error
+            //error // TODO this is or should not be needed
             return;
         }
 
@@ -140,6 +153,7 @@ public class CharacterManager : MonoBehaviour
     //================================================================================================================
     void TileHighlighting(GameState.ActionType action, bool turnOn)
     {
+        Debug.Log("tilehighlighting " + action + " " + turnOn );
         List<Vector2> tilesToHighlight = m_selectedCharacter.GetActionCoordinates(action);
         if (action == GameState.ActionType.Move)
         {
@@ -147,6 +161,7 @@ public class CharacterManager : MonoBehaviour
         }
         foreach (var coords in tilesToHighlight)
         {
+            Debug.Log("for " + coords.x + " " + coords.y);
             m_boardManager.TilePreviewToggle(coords, turnOn);
         }
     }

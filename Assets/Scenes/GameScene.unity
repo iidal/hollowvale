@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 242091583}
   - component: {fileID: 242091584}
   - component: {fileID: 242091585}
+  - component: {fileID: 242091586}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -318,7 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e8e7e41201464e42be5243754adb70b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_boardManager: {fileID: 917180085}
+  m_boardManager: {fileID: 242091586}
   m_characterManager: {fileID: 242091583}
   m_battleSystem: {fileID: 242091584}
   m_boardActionManager: {fileID: 242091585}
@@ -349,7 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd06de539cf33649963c4138921bb75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_boardManager: {fileID: 917180085}
+  m_boardManager: {fileID: 242091586}
   m_actionManager: {fileID: 242091585}
   m_characterPrefab: {fileID: 6125209405915987295, guid: 954ace9910e7de6409de23a0c00f58c6, type: 3}
   m_enemyPrefab: {fileID: 6125209405915987295, guid: 81d18ffb09118704685fd571f8793871, type: 3}
@@ -383,6 +384,22 @@ MonoBehaviour:
   m_abilityButton: {fileID: 153775926}
   m_endTurnButton: {fileID: 1079969238}
   m_actionButtons: {fileID: 453119676}
+--- !u!114 &242091586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242091580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb65d2c2960e59246ad870b1cc2b0bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_boardCreator: {fileID: 917180085}
+  m_xWidth: 6
+  m_zWidth: 6
+  m_characterManager: {fileID: 242091583}
 --- !u!1 &318248303
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,10 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ebd538c8c318e94c99b2a0cc7a8ec60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_xWidth: 6
-  m_zWidth: 5
   m_tilePrefab: {fileID: 3867537864176184175, guid: e44d3cca0bf49c446957e0aa0f217e07, type: 3}
-  m_characterManager: {fileID: 242091583}
 --- !u!4 &917180086
 Transform:
   m_ObjectHideFlags: 0

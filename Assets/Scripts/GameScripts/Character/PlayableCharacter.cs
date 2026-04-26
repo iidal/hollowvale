@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class PlayableCharacter : Character, IClickable
 {
-    public UnityAction<PlayableCharacter> m_onCharacterSelect;
+    //public UnityAction<PlayableCharacter> m_onCharacterSelect;
     public UnityAction<PlayableCharacter> m_onCharacterDeselect;
     bool m_mouseHover = false;
     [SerializeField] GameObject m_highlightClicked;
@@ -40,16 +40,18 @@ public class PlayableCharacter : Character, IClickable
         m_highlightHover.SetActive(false);
     }
 
+public void testing(){}
+
     void FixedUpdate()
     {
-        if (m_mouseHover)
-        {
-            m_highlightHover.SetActive(true);
-        }
-        else
-        {
-            m_highlightHover.SetActive(false);
-        }
+        // if (m_mouseHover)
+        // {
+        //     m_highlightHover.SetActive(true);
+        // }
+        // else
+        // {
+        //     m_highlightHover.SetActive(false);
+        // }
     }
 
     public void Selected()
@@ -67,31 +69,31 @@ public class PlayableCharacter : Character, IClickable
 
     void OnMouseDown()
     {
-        if (!GetCharacterInteractable())
-        {
-            return;
-        }
-        if (!m_characterSelected)
-        {
-            m_onCharacterSelect.Invoke(this);
-        }
-        else
-        {
-            m_onCharacterDeselect.Invoke(this);
-        }
+        // if (!GetCharacterInteractable())
+        // {
+        //     return;
+        // }
+        // if (!m_characterSelected)
+        // {
+        //     m_onCharacterSelect.Invoke(this);
+        // }
+        // else
+        // {
+        //     m_onCharacterDeselect.Invoke(this);
+        // }
     }
     void OnMouseEnter()
     {
-        if (!GetCharacterInteractable())
-        {
-            return;
-        }
-        m_mouseHover = true;
+        // if (!GetCharacterInteractable())
+        // {
+        //     return;
+        // }
+        // m_mouseHover = true;
     }
 
     void OnMouseExit()
     {
         // does this need check for interactable? maybe safer not to
-        m_mouseHover = false;
+       // m_mouseHover = false;
     }
 }
